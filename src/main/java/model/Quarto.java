@@ -1,12 +1,12 @@
 package model;
 
 public class Quarto {
-    public enum Status { LIVRE, OCUPADO, MANUTENCAO }
+    public enum Status {Livre, Ocupado, Manuntencao}
 
     private final int numero;
     private final String tipo;
     private double diaria;
-    private Status status = Status.LIVRE;
+    private Status status = Status.Livre;
 
     public Quarto(int numero, String tipo, double diaria) {
         this.numero = numero;
@@ -14,13 +14,13 @@ public class Quarto {
         this.diaria = diaria;
     }
 
-    public int getNumero() { return numero; }
-    public String getTipo() { return tipo; }
-    public double getDiaria() { return diaria; }
-    public Status getStatus() { return status; }
+    public int getNumero() {return numero;}
+    public String getTipo() {return tipo;}
+    public double getDiaria() {return diaria;}
+    public Status getStatus() {return status;}
 
-    public void setDiaria(double diaria) { this.diaria = diaria; }
-    public void ocupar()    { this.status = Status.OCUPADO; }
-    public void liberar()   { this.status = Status.LIVRE; }
-    public void manutencao(){ this.status = Status.MANUTENCAO; }
+    public void setDiaria(double diaria) {this.diaria = diaria;}
+    public void ocupar()    {this.status = Status.Ocupado;}
+    public void liberar()   {this.status = Status.Livre;}
+    public void manutencao(){this.status = Status.Manuntencao;}
 }
