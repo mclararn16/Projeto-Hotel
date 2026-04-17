@@ -1,4 +1,83 @@
-# Projeto-Hotel
+
+# 🏨 Projeto Hotel
+
+Um sistema simples de gerenciamento de hotel desenvolvido em Java, utilizando conceitos de Programação Orientada a Objetos (POO) como encapsulamento, herança e polimorfismo. O sistema permite cadastrar clientes, adicionar quartos, listar quartos e realizar reservas via linha de comando.
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+Projeto-Hotel/
+├── main/           # Classe principal (Main.java)
+├── model/          # Classes de domínio (Client, Quarto, Reserva, etc)
+├── repository/     # Simulação de banco de dados em memória
+├── service/        # Lógica de negócio (ReservaService)
+└── README.md       # Este arquivo
+```
+
+---
+
+## 🚀 Como Executar
+
+1. Abra o terminal na pasta `Projeto-Hotel`.
+2. Compile todos os arquivos Java:
+   ```sh
+   javac main/Main.java model/*.java repository/*.java service/*.java
+   ```
+3. Execute o sistema:
+   ```sh
+   java main.Main
+   ```
+
+---
+
+## 🛠️ Funcionalidades
+
+- Cadastro de clientes
+- Adição de quartos (simples e luxo)
+- Listagem de quartos
+- Realização de reservas
+- Menu interativo no console
+
+---
+
+## 📚 Tecnologias e Conceitos
+
+- Java 8+
+- Programação Orientada a Objetos
+  - Encapsulamento
+  - Herança e polimorfismo
+- Estrutura modular (pacotes)
+- Simulação de banco de dados em memória
+
+---
+
+## 📋 Diagrama UML
+
+<details>
+<summary>Clique para expandir</summary>
+
+![UML do Projeto Hotel](uml.png)
+
+</details>
+
+---
+
+## 👥 Autores
+
+- Arthur Angelo
+- Davi Almeida
+- Maria Clara
+
+---
+
+## 📄 Observações
+
+- O sistema é executado totalmente via linha de comando (CLI).
+- Não utiliza banco de dados real, apenas listas em memória.
+- Estrutura e funcionamento seguem o diagrama UML fornecido.
+- Sinta-se livre para contribuir!
 
 Lógica e Regra de negócio
 
