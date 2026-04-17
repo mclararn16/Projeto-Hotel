@@ -58,7 +58,7 @@ Projeto-Hotel/
 <details>
 <summary>Clique para expandir</summary>
 
-![UML do Projeto Hotel](uml.png)
+![UML do Projeto Hotel](https://user-images.githubusercontent.com/placeholder/uml-diagrama-pdf.png)
 
 </details>
 
