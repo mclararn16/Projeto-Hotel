@@ -104,7 +104,7 @@ Projeto-Hotel/
 <details>
 <summary>Clique para expandir</summary>
 
-![UML do Projeto Hotel](DiagramaUMLHotelPOO_page-0001.jpg)
+<img width="1240" height="1754" alt="Image" src="https://github.com/user-attachments/assets/4721b47a-30f3-4935-9d57-9a80ece34140" />
 
 </details>
 
