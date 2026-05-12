@@ -9,7 +9,7 @@ Sistema de gerenciamento de hotel desenvolvido em Java com foco em Programação
 
 ```
 Projeto-Hotel/
-├── model/          # Domínio + dados + exceções
+├── model/          # Domínio + banco em memória + exceções
 │   ├── Client.java
 │   ├── Quarto.java / QuartoSimples.java / QuartoLuxo.java
 │   ├── Reserva.java
@@ -69,7 +69,7 @@ Projeto-Hotel/
 
 | Requisito | Como foi atendido |
 |---|---|
-| **Integração entre múltiplas classes** | Controllers orquestram model, service e repository em conjunto |
+| **Integração entre múltiplas classes** | Controllers orquestram as camadas model, service e view em conjunto |
 | **Uso de coleções (ArrayList)** | `BancodeDados` mantém `ArrayList<Client>`, `ArrayList<Quarto>` e `ArrayList<Reserva>` |
 | **Tratamento de exceções (try-catch)** | `ClienteException` e `ReservaException` capturadas nos controllers com mensagens amigáveis |
 | **Fluxo funcional completo** | entrada (MenuView) → processamento (Service/Controller) → saída (MenuView) |
@@ -77,7 +77,7 @@ Projeto-Hotel/
 
 ---
 
-## 📚 Regras de Negócio
+## 📋 Regras de Negócio
 
 - Um cliente não pode ter mais de **3 reservas ativas** ao mesmo tempo
 - A **data de saída** deve ser posterior à data de entrada
@@ -92,14 +92,14 @@ Projeto-Hotel/
 - Java 8+
 - Programação Orientada a Objetos
   - Encapsulamento, Herança e Polimorfismo
-- Exceções customizadas (extends Exception)
-- Coleções: ArrayList
-- LocalDate / DateTimeFormatter (java.time)
-- Arquitetura em camadas: model / exception / repository / service / controller / view
+- Exceções customizadas (`extends Exception`)
+- Coleções: `ArrayList`
+- `LocalDate` / `DateTimeFormatter` (java.time)
+- Arquitetura em camadas: `model` / `controller` / `view`
 
 ---
 
-## 📋 Diagrama UML
+## 🖼️ Diagrama UML
 
 <details>
 <summary>Clique para expandir</summary>
