@@ -2,12 +2,11 @@ package model;
 
 public class QuartoLuxo extends Quarto {
     public QuartoLuxo(int numero) {
-        super(numero, "Luxo");
+        super(numero, "Luxo", 350.0);
     }
 
     @Override
     public boolean isDisponivel() {
-        // Polimorfismo: quartos de luxo podem ter regras diferentes
         return !this.bloqueado && this.disponivel;
     }
 }

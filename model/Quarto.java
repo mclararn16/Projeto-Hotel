@@ -5,21 +5,19 @@ public class Quarto {
     protected String tipo;
     protected boolean disponivel;
     protected boolean bloqueado;
+    protected double precoDiaria;
 
-    public Quarto(int numero, String tipo) {
+    public Quarto(int numero, String tipo, double precoDiaria) {
         this.numero = numero;
         this.tipo = tipo;
         this.disponivel = true;
         this.bloqueado = false;
+        this.precoDiaria = precoDiaria;
     }
 
-    public int getNumero() {
-        return numero;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
+    public int getNumero() { return numero; }
+    public String getTipo() { return tipo; }
+    public double getPrecoDiaria() { return precoDiaria; }
 
     public boolean isDisponivel() {
         return disponivel && !bloqueado;
@@ -29,9 +27,7 @@ public class Quarto {
         this.disponivel = disponivel;
     }
 
-    public boolean isBloqueado() {
-        return bloqueado;
-    }
+    public boolean isBloqueado() { return bloqueado; }
 
     public void setBloqueado(boolean bloqueado) {
         this.bloqueado = bloqueado;

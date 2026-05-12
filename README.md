@@ -1,7 +1,7 @@
 
-# 🏨 Projeto Hotel
+# 🏨 Projeto Hotel — Versão Beta
 
-Um sistema simples de gerenciamento de hotel desenvolvido em Java, utilizando conceitos de Programação Orientada a Objetos (POO) como encapsulamento, herança e polimorfismo. O sistema permite cadastrar clientes, adicionar quartos, listar quartos e realizar reservas via linha de comando.
+Sistema de gerenciamento de hotel desenvolvido em Java com foco em Programação Orientada a Objetos (POO). A versão beta expande o protótipo com tratamento de exceções, coleções integradas, fluxo completo de reservas e novas funcionalidades.
 
 ---
 
@@ -10,10 +10,13 @@ Um sistema simples de gerenciamento de hotel desenvolvido em Java, utilizando co
 ```
 Projeto-Hotel/
 ├── main/           # Classe principal (Main.java)
-├── model/          # Classes de domínio (Client, Quarto, Reserva, etc)
-├── repository/     # Simulação de banco de dados em memória
+├── model/          # Classes de domínio (Client, Quarto, QuartoSimples, QuartoLuxo, Reserva)
+├── exception/      # Exceções customizadas (ReservaException, ClienteException)
+├── repository/     # Simulação de banco de dados em memória (BancodeDados)
 ├── service/        # Lógica de negócio (ReservaService)
-└── README.md       # Este arquivo
+├── controller/     # Controladores (ClienteController, QuartoController, ReservaController)
+├── view/           # Interface com o usuário (MenuView)
+└── README.md
 ```
 
 ---
@@ -23,7 +26,7 @@ Projeto-Hotel/
 1. Abra o terminal na pasta `Projeto-Hotel`.
 2. Compile todos os arquivos Java:
    ```sh
-   javac main/Main.java model/*.java repository/*.java service/*.java
+   javac model/*.java exception/*.java repository/*.java service/*.java controller/*.java view/*.java main/Main.java
    ```
 3. Execute o sistema:
    ```sh
@@ -34,11 +37,44 @@ Projeto-Hotel/
 
 ## 🛠️ Funcionalidades
 
-- Cadastro de clientes
-- Adição de quartos (simples e luxo)
-- Listagem de quartos
-- Realização de reservas
-- Menu interativo no console
+### Clientes
+- Cadastro de cliente (com validação de CPF e nome)
+- Listagem de todos os clientes
+- Busca de cliente por CPF
+
+### Quartos
+- Adição de Quarto Simples (R$ 150,00/diária)
+- Adição de Quarto Luxo (R$ 350,00/diária)
+- Listagem de todos os quartos com status de disponibilidade
+
+### Reservas
+- Realização de reserva com seleção de quarto, cliente e datas (check-in / check-out)
+- Cálculo automático de dias e valor total
+- Cancelamento de reserva (libera o quarto automaticamente)
+- Listagem de todas as reservas
+- Listagem de reservas por cliente
+
+---
+
+## 🧠 Requisitos da Etapa 4 Atendidos
+
+| Requisito | Como foi atendido |
+|---|---|
+| **Integração entre múltiplas classes** | Controllers orquestram model, service e repository em conjunto |
+| **Uso de coleções (ArrayList)** | `BancodeDados` mantém `ArrayList<Client>`, `ArrayList<Quarto>` e `ArrayList<Reserva>` |
+| **Tratamento de exceções (try-catch)** | `ClienteException` e `ReservaException` capturadas nos controllers com mensagens amigáveis |
+| **Fluxo funcional completo** | entrada (MenuView) → processamento (Service/Controller) → saída (MenuView) |
+| **Melhoria em relação ao protótipo** | Datas reais com LocalDate, cálculo de valor, cancelamento, validações e 10 opções de menu |
+
+---
+
+## 📚 Regras de Negócio
+
+- Um cliente não pode ter mais de **3 reservas ativas** ao mesmo tempo
+- A **data de saída** deve ser posterior à data de entrada
+- Um quarto **ocupado** não pode ser reservado novamente
+- Um CPF já cadastrado **não pode ser reutilizado**
+- Ao cancelar uma reserva, o quarto é **liberado automaticamente**
 
 ---
 
@@ -46,10 +82,11 @@ Projeto-Hotel/
 
 - Java 8+
 - Programação Orientada a Objetos
-  - Encapsulamento
-  - Herança e polimorfismo
-- Estrutura modular (pacotes)
-- Simulação de banco de dados em memória
+  - Encapsulamento, Herança e Polimorfismo
+- Exceções customizadas (extends Exception)
+- Coleções: ArrayList
+- LocalDate / DateTimeFormatter (java.time)
+- Arquitetura em camadas: model / exception / repository / service / controller / view
 
 ---
 
@@ -75,64 +112,5 @@ Projeto-Hotel/
 ## 📄 Observações
 
 - O sistema é executado totalmente via linha de comando (CLI).
-- Não utiliza banco de dados real, apenas listas em memória.
-- Estrutura e funcionamento seguem o diagrama UML fornecido.
-- Sinta-se livre para contribuir!
-
-Lógica e Regra de negócio
-
-1\. Lógica do Sistema:
-A lógica é como o sistema pensa para executar uma tarefa 
-\*Para um sistema de hotel:
-\-Receber a data de entrada
-\-Receber a data de saída
-\-Verificar se o quarto está disponível
-\-Se estiver disponível ->permitir a reserva
-\-Se não estiver disponível -> mostrar erro 
-
-Em pseudocódigo:
-
-se quartoDisponivel(dataEntrada, dataSaida) então
-&#x20;   criarReserva()
-senão
-&#x20;   mostrarMensagem("Quarto indisponível")
-
-2\. regra de negócio:
-As regras de negócio são as regras que definem como o sistema deve funcionar de acordo com o mundo real
-
-\*Para um sistema de hotel:
-\-Um quarto não pode ter duas reservas ao mesmo tempo (mesmo período de datas)
-\-A data de saída deve ser maior que a data de entrada
-\-O cliente precisa estar cadastrado para fazer uma reserva
-\-O pagamento deve ser feito antes do check-in
-
-3\. Diferença entre regra e lógica do sistema:
-|Lógica                             |Regra de negócio|
-|-|-|
-|Como o sistema resolve o problema  |O que o sistema pode ou não pode fazer|
-|Passo a passo do código            |Regras do mundo real|
-|Estruturas if, for, while          |Condições do sistema|
-
-Exemplo:
-
-Na Regra de negócio:
-- "O cliente não pode reservar mais de 3 quartos"
-
-Na Lógica (código) :
-
-if(cliente.getQuantidadeReservas() >= 3){
-   System.out.println("Limite de reservas atingido");
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Não utiliza banco de dados real — apenas listas em memória.
+- Datas devem ser inseridas no formato **dd/MM/yyyy** (ex: 20/05/2026).
