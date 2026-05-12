@@ -1,8 +1,5 @@
-package repository;
+package model;
 
-import model.Client;
-import model.Quarto;
-import model.Reserva;
 import java.util.ArrayList;
 import java.util.List;
 

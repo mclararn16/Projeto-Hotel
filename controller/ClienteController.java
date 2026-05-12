@@ -1,9 +1,9 @@
 package controller;
 
 import model.Client;
-import repository.BancodeDados;
+import model.BancodeDados;
+import model.ClienteException;
 import view.MenuView;
-import exception.ClienteException;
 
 public class ClienteController {
     private BancodeDados banco;

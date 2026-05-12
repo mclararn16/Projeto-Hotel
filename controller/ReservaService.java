@@ -1,11 +1,11 @@
-package service;
+package controller;
 
 import model.Client;
 import model.Quarto;
 import model.Reserva;
-import repository.BancodeDados;
-import exception.ReservaException;
-import exception.ClienteException;
+import model.BancodeDados;
+import model.ReservaException;
+import model.ClienteException;
 import java.time.LocalDate;
 
 public class ReservaService {

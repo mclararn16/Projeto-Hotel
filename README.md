@@ -9,13 +9,22 @@ Sistema de gerenciamento de hotel desenvolvido em Java com foco em Programação
 
 ```
 Projeto-Hotel/
-├── main/           # Classe principal (Main.java)
-├── model/          # Classes de domínio (Client, Quarto, QuartoSimples, QuartoLuxo, Reserva)
-├── exception/      # Exceções customizadas (ReservaException, ClienteException)
-├── repository/     # Simulação de banco de dados em memória (BancodeDados)
-├── service/        # Lógica de negócio (ReservaService)
-├── controller/     # Controladores (ClienteController, QuartoController, ReservaController)
-├── view/           # Interface com o usuário (MenuView)
+├── model/          # Domínio + dados + exceções
+│   ├── Client.java
+│   ├── Quarto.java / QuartoSimples.java / QuartoLuxo.java
+│   ├── Reserva.java
+│   ├── BancodeDados.java
+│   ├── ClienteException.java
+│   └── ReservaException.java
+├── controller/     # Lógica de negócio + controllers
+│   ├── ReservaService.java
+│   ├── ClienteController.java
+│   ├── QuartoController.java
+│   └── ReservaController.java
+├── view/           # Interface com o usuário + entrada do sistema
+│   ├── MenuView.java
+│   └── Main.java
+├── docs/           # Imagens e diagramas
 └── README.md
 ```
 
@@ -26,11 +35,11 @@ Projeto-Hotel/
 1. Abra o terminal na pasta `Projeto-Hotel`.
 2. Compile todos os arquivos Java:
    ```sh
-   javac model/*.java exception/*.java repository/*.java service/*.java controller/*.java view/*.java main/Main.java
+   javac model/*.java controller/*.java view/*.java
    ```
 3. Execute o sistema:
    ```sh
-   java main.Main
+   java view.Main
    ```
 
 ---

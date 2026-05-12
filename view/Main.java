@@ -1,11 +1,10 @@
-package main;
+package view;
 
-import repository.BancodeDados;
-import service.ReservaService;
+import model.BancodeDados;
+import controller.ReservaService;
 import controller.ClienteController;
 import controller.QuartoController;
 import controller.ReservaController;
-import view.MenuView;
 import java.util.Scanner;
 
 public class Main {

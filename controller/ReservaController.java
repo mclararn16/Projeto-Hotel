@@ -3,11 +3,10 @@ package controller;
 import model.Client;
 import model.Quarto;
 import model.Reserva;
-import repository.BancodeDados;
-import service.ReservaService;
+import model.BancodeDados;
+import model.ReservaException;
+import model.ClienteException;
 import view.MenuView;
-import exception.ReservaException;
-import exception.ClienteException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,7 +29,6 @@ public class ReservaController {
             return;
         }
 
-        // Loop: selecionar cliente valido
         Client cliente;
         while (true) {
             view.listarClientes(banco.getClientes());
@@ -46,7 +44,6 @@ public class ReservaController {
             return;
         }
 
-        // Loop: selecionar quarto disponivel valido
         Quarto quarto;
         while (true) {
             view.listarQuartos(banco.getQuartos());
@@ -64,14 +61,12 @@ public class ReservaController {
             }
         }
 
-        // Datas: o proprio metodo ja faz loop ate formato valido; null = cancelado
         LocalDate entrada = view.obterDataReserva("Data de Entrada (dd/MM/yyyy): ");
         if (entrada == null) { view.exibirMensagem("Operacao cancelada."); return; }
 
         LocalDate saida = view.obterDataReserva("Data de Saida   (dd/MM/yyyy): ");
         if (saida == null) { view.exibirMensagem("Operacao cancelada."); return; }
 
-        // Tenta criar a reserva, loop se a data for invalida
         while (true) {
             try {
                 Reserva reserva = service.realizarReserva(cliente, quarto, entrada, saida);

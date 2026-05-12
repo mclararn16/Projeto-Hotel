@@ -1,4 +1,4 @@
-package exception;
+package model;
 
 public class ReservaException extends Exception {
     public ReservaException(String message) {

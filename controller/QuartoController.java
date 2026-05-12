@@ -3,7 +3,7 @@ package controller;
 import model.Quarto;
 import model.QuartoSimples;
 import model.QuartoLuxo;
-import repository.BancodeDados;
+import model.BancodeDados;
 import view.MenuView;
 import java.util.ArrayList;
 import java.util.List;
