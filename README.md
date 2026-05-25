@@ -43,6 +43,31 @@ Projeto-Hotel/
    ```
 
 ---
+## ✅ Roteiro rápido de teste (fluxo completo)
+
+Após executar java view.Main, siga este roteiro para demonstrar o sistema funcionando:
+
+1. *(1) Cadastrar Cliente*
+   - Nome: Tio
+   - CPF: 12345678901
+
+2. *(5) Adicionar Quarto Simples*
+   - (o sistema adiciona um quarto, por exemplo: número 1)
+
+3. *(7) Realizar Reserva*
+   - ID do Cliente: 1
+   - Número do Quarto: 1
+   - Data de entrada: 25/05/2026
+   - Data de saída: 27/05/2026
+
+4. *(9) Listar Todas as Reservas*
+   - Deve aparecer a reserva criada.
+
+5. *(8) Cancelar Reserva*
+   - Informe o ID da reserva exibida na listagem.
+
+6. *(4) Listar Todos os Quartos*
+   - O quarto deve voltar a ficar *Disponível* após o cancelamento.
 
 ## 🛠️ Funcionalidades
 
