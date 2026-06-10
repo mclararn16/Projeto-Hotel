@@ -9,8 +9,12 @@ import model.ClienteException;
 import view.MenuView;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ReservaController {
+    private static final Logger logger = Logger.getLogger(ReservaController.class.getName());
+
     private BancodeDados banco;
     private ReservaService service;
     private MenuView view;
@@ -22,119 +26,140 @@ public class ReservaController {
     }
 
     public void realizarReserva() {
-        view.exibirMensagem("(Digite 0 para cancelar a operacao)");
+        try {
+            view.exibirMensagem("(Digite 0 para cancelar a operacao)");
 
-        if (banco.getClientes().isEmpty()) {
-            view.exibirMensagem("Nenhum cliente cadastrado! Cadastre um cliente primeiro.");
-            return;
-        }
-
-        Client cliente;
-        while (true) {
-            view.listarClientes(banco.getClientes());
-            int idCliente = view.obterIdClienteReserva();
-            if (idCliente == 0) { view.exibirMensagem("Operacao cancelada."); return; }
-            cliente = banco.buscarClientePorId(idCliente);
-            if (cliente != null) break;
-            view.exibirMensagem("Erro: Cliente nao encontrado. Tente novamente.");
-        }
-
-        if (banco.buscarQuartoDisponivel() == null) {
-            view.exibirNenhumQuartoDisponivel();
-            return;
-        }
-
-        Quarto quarto;
-        while (true) {
-            view.listarQuartos(banco.getQuartos());
-            int numeroQuarto = view.obterNumeroQuarto();
-            if (numeroQuarto == 0) { view.exibirMensagem("Operacao cancelada."); return; }
-            try {
-                quarto = banco.buscarQuartoPorNumero(numeroQuarto);
-                if (quarto == null)
-                    throw new ReservaException("Quarto nao encontrado.");
-                if (!quarto.isDisponivel())
-                    throw new ReservaException("Quarto " + quarto.getNumero() + " esta ocupado.");
-                break;
-            } catch (ReservaException e) {
-                view.exibirMensagem("Erro: " + e.getMessage() + " Tente novamente.");
-            }
-        }
-
-        LocalDate entrada = view.obterDataReserva("Data de Entrada (dd/MM/yyyy): ");
-        if (entrada == null) { view.exibirMensagem("Operacao cancelada."); return; }
-
-        LocalDate saida = view.obterDataReserva("Data de Saida   (dd/MM/yyyy): ");
-        if (saida == null) { view.exibirMensagem("Operacao cancelada."); return; }
-
-        while (true) {
-            try {
-                Reserva reserva = service.realizarReserva(cliente, quarto, entrada, saida);
-                view.exibirReservaSucesso(cliente.getNome(), quarto.getNumero());
-                view.exibirMensagem(String.format("Total estimado: R$ %.2f (%d diarias)",
-                        reserva.calcularValorTotal(), reserva.calcularDias()));
-                return;
-            } catch (ReservaException e) {
-                view.exibirMensagem("Erro: " + e.getMessage());
-                saida = view.obterDataReserva("Nova Data de Saida (dd/MM/yyyy): ");
-                if (saida == null) { view.exibirMensagem("Operacao cancelada."); return; }
-            } catch (ClienteException e) {
-                view.exibirMensagem("Erro: " + e.getMessage());
+            if (banco.getClientes().isEmpty()) {
+                view.exibirMensagem("Nenhum cliente cadastrado! Cadastre um cliente primeiro.");
                 return;
             }
+
+            Client cliente;
+            while (true) {
+                view.listarClientes(banco.getClientes());
+                int idCliente = view.obterIdClienteReserva();
+                if (idCliente == 0) { view.exibirMensagem("Operacao cancelada."); return; }
+                cliente = banco.buscarClientePorId(idCliente);
+                if (cliente != null) break;
+                view.exibirMensagem("Erro: Cliente nao encontrado. Tente novamente.");
+            }
+
+            if (banco.buscarQuartoDisponivel() == null) {
+                view.exibirNenhumQuartoDisponivel();
+                return;
+            }
+
+            Quarto quarto;
+            while (true) {
+                view.listarQuartos(banco.getQuartos());
+                int numeroQuarto = view.obterNumeroQuarto();
+                if (numeroQuarto == 0) { view.exibirMensagem("Operacao cancelada."); return; }
+                try {
+                    quarto = banco.buscarQuartoPorNumero(numeroQuarto);
+                    if (quarto == null)
+                        throw new ReservaException("Quarto nao encontrado.");
+                    if (!quarto.isDisponivel())
+                        throw new ReservaException("Quarto " + quarto.getNumero() + " esta ocupado.");
+                    break;
+                } catch (ReservaException e) {
+                    view.exibirMensagem("Erro: " + e.getMessage() + " Tente novamente.");
+                }
+            }
+
+            LocalDate entrada = view.obterDataReserva("Data de Entrada (dd/MM/yyyy): ");
+            if (entrada == null) { view.exibirMensagem("Operacao cancelada."); return; }
+
+            LocalDate saida = view.obterDataReserva("Data de Saida   (dd/MM/yyyy): ");
+            if (saida == null) { view.exibirMensagem("Operacao cancelada."); return; }
+
+            while (true) {
+                try {
+                    Reserva reserva = service.realizarReserva(cliente, quarto, entrada, saida);
+                    view.exibirReservaSucesso(cliente.getNome(), quarto.getNumero());
+                    view.exibirMensagem(String.format("Total estimado: R$ %.2f (%d diarias)",
+                            reserva.calcularValorTotal(), reserva.calcularDias()));
+                    return;
+                } catch (ReservaException e) {
+                    view.exibirMensagem("Erro: " + e.getMessage());
+                    saida = view.obterDataReserva("Nova Data de Saida (dd/MM/yyyy): ");
+                    if (saida == null) { view.exibirMensagem("Operacao cancelada."); return; }
+                } catch (ClienteException e) {
+                    view.exibirMensagem("Erro: " + e.getMessage());
+                    return;
+                }
+            }
+        } catch (Exception ex) {
+            
+            logger.log(Level.SEVERE, "Erro inesperado em realizarReserva", ex);
+            view.exibirMensagem("Erro interno ao processar a operacao. Tente novamente mais tarde.");
         }
     }
 
     public void cancelarReserva() {
-        view.exibirMensagem("(Digite 0 para cancelar a operacao)");
+        try {
+            view.exibirMensagem("(Digite 0 para cancelar a operacao)");
 
-        if (banco.getReservas().isEmpty()) {
-            view.exibirMensagem("Nenhuma reserva cadastrada!");
-            return;
-        }
+            //if (banco.getReservas().isEmpty()) {
+              //  view.exibirMensagem("Nenhuma reserva cadastrada!");
+               // return;
+            //}
 
-        while (true) {
-            view.listarReservas(banco.getReservas());
-            int idReserva = view.obterIdReserva();
-            if (idReserva == 0) { view.exibirMensagem("Operacao cancelada."); return; }
-            try {
-                service.cancelarReserva(idReserva);
-                view.exibirMensagem("Reserva cancelada com sucesso!");
-                return;
-            } catch (ReservaException e) {
-                view.exibirMensagem("Erro: " + e.getMessage() + " Tente novamente.");
+            while (true) {
+                view.listarReservas(banco.getReservas());
+                int idReserva = view.obterIdReserva();
+                if (idReserva == 0) { view.exibirMensagem("Operacao cancelada."); return; }
+                try {
+                    service.cancelarReserva(idReserva);
+                    view.exibirMensagem("Reserva cancelada com sucesso!");
+                    return;
+                } catch (ReservaException e) {
+                    view.exibirMensagem("Erro: " + e.getMessage() + " Tente novamente.");
+                }
             }
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Erro inesperado em cancelarReserva", ex);
+            view.exibirMensagem("Erro interno ao processar a operacao. Tente novamente mais tarde.");
         }
     }
 
     public void listarReservas() {
-        view.listarReservas(banco.getReservas());
+        try {
+            view.listarReservas(banco.getReservas());
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Erro inesperado em listarReservas", ex);
+            view.exibirMensagem("Erro interno ao listar reservas.");
+        }
     }
 
     public void listarReservasPorCliente() {
-        view.exibirMensagem("(Digite 0 para cancelar)");
+        try {
+            view.exibirMensagem("(Digite 0 para cancelar)");
 
-        if (banco.getClientes().isEmpty()) {
-            view.exibirMensagem("Nenhum cliente cadastrado!");
-            return;
-        }
+            if (banco.getClientes().isEmpty()) {
+                view.exibirMensagem("Nenhum cliente cadastrado!");
+                return;
+            }
 
-        while (true) {
-            view.listarClientes(banco.getClientes());
-            int idCliente = view.obterIdClienteReserva();
-            if (idCliente == 0) { view.exibirMensagem("Operacao cancelada."); return; }
-            Client cliente = banco.buscarClientePorId(idCliente);
-            if (cliente == null) {
-                view.exibirMensagem("Erro: Cliente nao encontrado. Tente novamente.");
-                continue;
+            while (true) {
+                view.listarClientes(banco.getClientes());
+                int idCliente = view.obterIdClienteReserva();
+                if (idCliente == 0) { view.exibirMensagem("Operacao cancelada."); return; }
+                Client cliente = banco.buscarClientePorId(idCliente);
+                if (cliente == null) {
+                    view.exibirMensagem("Erro: Cliente nao encontrado. Tente novamente.");
+                    continue;
+                }
+                List<Reserva> reservas = banco.buscarReservasPorCliente(idCliente);
+                if (reservas.isEmpty()) {
+                    view.exibirMensagem("Nenhuma reserva para: " + cliente.getNome());
+                } else {
+                    view.listarReservas(reservas);
+                }
+                return;
             }
-            List<Reserva> reservas = banco.buscarReservasPorCliente(idCliente);
-            if (reservas.isEmpty()) {
-                view.exibirMensagem("Nenhuma reserva para: " + cliente.getNome());
-            } else {
-                view.listarReservas(reservas);
-            }
-            return;
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Erro inesperado em listarReservasPorCliente", ex);
+            view.exibirMensagem("Erro interno ao processar a operacao. Tente mais tarde.");
         }
     }
 }
